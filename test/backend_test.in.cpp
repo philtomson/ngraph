@@ -28,6 +28,7 @@
 #include "ngraph/op/get_output_element.hpp"
 #include "ngraph/serializer.hpp"
 #include "util/all_close.hpp"
+#include "util/all_close_f.hpp"
 #include "util/ndarray.hpp"
 #include "util/test_control.hpp"
 #include "util/test_tools.hpp"
@@ -1323,7 +1324,7 @@ NGRAPH_TEST(${BACKEND_NAME}, log)
     auto result = backend->create_tensor(element::f32, shape);
 
     backend->call(f, {result}, {a});
-    EXPECT_TRUE(test::all_close(loga, read_vector<float>(result)));
+    EXPECT_TRUE(test::all_close_f(loga, read_vector<float>(result)));
 }
 
 NGRAPH_TEST(${BACKEND_NAME}, maximum)
@@ -2460,7 +2461,7 @@ NGRAPH_TEST(${BACKEND_NAME}, sin)
         input.begin(), input.end(), input.begin(), [](float x) -> float { return sinf(x); });
 
     backend->call(f, {result}, {a});
-    EXPECT_TRUE(test::all_close(input, read_vector<float>(result)));
+    EXPECT_TRUE(test::all_close_f(input, read_vector<float>(result)));
 }
 
 NGRAPH_TEST(${BACKEND_NAME}, cos)
@@ -2482,7 +2483,7 @@ NGRAPH_TEST(${BACKEND_NAME}, cos)
         input.begin(), input.end(), input.begin(), [](float x) -> float { return cosf(x); });
 
     backend->call(f, {result}, {a});
-    EXPECT_TRUE(test::all_close(input, read_vector<float>(result)));
+    EXPECT_TRUE(test::all_close_f(input, read_vector<float>(result)));
 }
 
 NGRAPH_TEST(${BACKEND_NAME}, tan)
@@ -2504,7 +2505,7 @@ NGRAPH_TEST(${BACKEND_NAME}, tan)
         input.begin(), input.end(), input.begin(), [](float x) -> float { return tanf(x); });
 
     backend->call(f, {result}, {a});
-    EXPECT_TRUE(test::all_close(input, read_vector<float>(result)));
+    EXPECT_TRUE(test::all_close_f(input, read_vector<float>(result)));
 }
 
 NGRAPH_TEST(${BACKEND_NAME}, asin)
@@ -2525,7 +2526,7 @@ NGRAPH_TEST(${BACKEND_NAME}, asin)
         input.begin(), input.end(), input.begin(), [](float x) -> float { return asinf(x); });
 
     backend->call(f, {result}, {a});
-    EXPECT_TRUE(test::all_close(input, read_vector<float>(result)));
+    EXPECT_TRUE(test::all_close_f(input, read_vector<float>(result)));
 }
 
 NGRAPH_TEST(${BACKEND_NAME}, acos)
@@ -2546,7 +2547,7 @@ NGRAPH_TEST(${BACKEND_NAME}, acos)
         input.begin(), input.end(), input.begin(), [](float x) -> float { return acosf(x); });
 
     backend->call(f, {result}, {a});
-    EXPECT_EQ(input, read_vector<float>(result));
+    EXPECT_TRUE(test::all_close_f(input, read_vector<float>(result)));
 }
 
 NGRAPH_TEST(${BACKEND_NAME}, atan)
@@ -2567,7 +2568,7 @@ NGRAPH_TEST(${BACKEND_NAME}, atan)
         input.begin(), input.end(), input.begin(), [](float x) -> float { return atanf(x); });
 
     backend->call(f, {result}, {a});
-    EXPECT_TRUE(test::all_close(input, read_vector<float>(result)));
+    EXPECT_TRUE(test::all_close_f(input, read_vector<float>(result)));
 }
 
 NGRAPH_TEST(${BACKEND_NAME}, sinh)
@@ -2588,7 +2589,7 @@ NGRAPH_TEST(${BACKEND_NAME}, sinh)
         input.begin(), input.end(), input.begin(), [](float x) -> float { return sinhf(x); });
 
     backend->call(f, {result}, {a});
-    EXPECT_TRUE(test::all_close(input, read_vector<float>(result)));
+    EXPECT_TRUE(test::all_close_f(input, read_vector<float>(result)));
 }
 
 NGRAPH_TEST(${BACKEND_NAME}, cosh)
@@ -2609,7 +2610,7 @@ NGRAPH_TEST(${BACKEND_NAME}, cosh)
         input.begin(), input.end(), input.begin(), [](float x) -> float { return coshf(x); });
 
     backend->call(f, {result}, {a});
-    EXPECT_TRUE(test::all_close(input, read_vector<float>(result)));
+    EXPECT_TRUE(test::all_close_f(input, read_vector<float>(result)));
 }
 
 NGRAPH_TEST(${BACKEND_NAME}, tanh)
@@ -2630,7 +2631,7 @@ NGRAPH_TEST(${BACKEND_NAME}, tanh)
         input.begin(), input.end(), input.begin(), [](float x) -> float { return tanhf(x); });
 
     backend->call(f, {result}, {a});
-    EXPECT_TRUE(test::all_close(input, read_vector<float>(result)));
+    EXPECT_TRUE(test::all_close_f(input, read_vector<float>(result)));
 }
 
 NGRAPH_TEST(${BACKEND_NAME}, exp)
@@ -2647,9 +2648,9 @@ NGRAPH_TEST(${BACKEND_NAME}, exp)
     auto result = backend->create_tensor(element::f32, shape);
 
     backend->call(f, {result}, {a});
-    EXPECT_EQ(
-        (vector<float>{expf(-4), expf(-3), expf(-2), expf(-1), expf(0), expf(1), expf(2), expf(3)}),
-        read_vector<float>(result));
+    EXPECT_TRUE(test::all_close_f(
+        vector<float>{expf(-4), expf(-3), expf(-2), expf(-1), expf(0), expf(1), expf(2), expf(3)},
+        read_vector<float>(result)));
 }
 
 NGRAPH_TEST(${BACKEND_NAME}, slice_scalar)
